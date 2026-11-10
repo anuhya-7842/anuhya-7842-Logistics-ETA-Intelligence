@@ -1,0 +1,77 @@
+[
+    {
+        "scenario_id": "ANOM-001",
+        "issue_type": "INGESTION_TIME_BEFORE_EVENT_TIME",
+        "record_type": "TRACKING_EVENT",
+        "record": {
+            "event_id": "ANOM-EVT-001",
+            "shipment_id": "SHP-2026-000001",
+            "leg_id": "LEG-SHP-2026-000001-01",
+            "facility_id": "FAC-0088",
+            "event_type": "DEPARTED_FACILITY",
+            "event_time": "2026-03-30T04:08:00+00:00",
+            "ingestion_time": "2026-03-30T02:08:00+00:00",
+            "event_status": "VALID",
+            "source": "CARRIER_API"
+        }
+    },
+    {
+        "scenario_id": "ANOM-002",
+        "issue_type": "IMPOSSIBLE_ROUTE_ORDER",
+        "record_type": "SHIPMENT_LEGS",
+        "records": [
+            {
+                "leg_id": "LEG-SHP-2026-000001-01",
+                "shipment_id": "SHP-2026-000001",
+                "route_id": "RTE-GEN-SHP-2026-000001-01",
+                "carrier_id": "CAR-019",
+                "origin_facility_id": "FAC-0088",
+                "destination_facility_id": "FAC-0030",
+                "leg_sequence": 2,
+                "planned_departure": "2026-03-30T01:00:00+00:00",
+                "planned_arrival": "2026-03-30T14:00:00+00:00",
+                "actual_departure": null,
+                "actual_arrival": null
+            },
+            {
+                "leg_id": "LEG-SHP-2026-000001-02",
+                "shipment_id": "SHP-2026-000001",
+                "route_id": "RTE-GEN-SHP-2026-000001-02",
+                "carrier_id": "CAR-019",
+                "origin_facility_id": "FAC-0030",
+                "destination_facility_id": "FAC-0046",
+                "leg_sequence": 1,
+                "planned_departure": "2026-03-30T16:00:00+00:00",
+                "planned_arrival": "2026-04-01T07:00:00+00:00",
+                "actual_departure": null,
+                "actual_arrival": null
+            }
+        ]
+    },
+    {
+        "scenario_id": "ANOM-003",
+        "issue_type": "FUTURE_EVENT_LEAKAGE",
+        "record_type": "ETA_PREDICTION_CASE",
+        "prediction_as_of": "2026-03-30T00:34:00+00:00",
+        "future_event": {
+            "event_id": "EVT-SHP-2026-000001-000001",
+            "shipment_id": "SHP-2026-000001",
+            "leg_id": "LEG-SHP-2026-000001-01",
+            "facility_id": "FAC-0088",
+            "event_type": "DEPARTED_FACILITY",
+            "event_time": "2026-03-30T01:34:00+00:00",
+            "ingestion_time": "2026-03-30T02:08:00+00:00",
+            "event_status": "VALID",
+            "source": "CARRIER_API"
+        }
+    },
+    {
+        "scenario_id": "ANOM-004",
+        "issue_type": "DELIVERED_SHIPMENT_MARKED_IN_TRANSIT",
+        "record_type": "SHIPMENT_STATUS_CONFLICT",
+        "shipment_id": "SHP-2026-000001",
+        "baseline_status": "DELIVERED",
+        "anomalous_status": "IN_TRANSIT",
+        "delivered_event_present": true
+    }
+]

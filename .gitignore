@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.coverage
+.env
+
+# Local backups
+data_starter_backup/
+src/generator_backup.py
+src/generator_before_*.py

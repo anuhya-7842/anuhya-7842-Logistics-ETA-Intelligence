@@ -1,0 +1,4 @@
+service_level_id,service_name,target_delivery_hours,delay_grace_hours,effective_from,effective_to
+SVC-001,STANDARD,120,12,2026-01-01T00:00:00Z,
+SVC-002,EXPRESS,72,6,2026-01-01T00:00:00Z,
+SVC-003,PREMIUM,24,2,2026-01-01T00:00:00Z,
