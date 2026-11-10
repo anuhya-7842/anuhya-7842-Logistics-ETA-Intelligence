@@ -7,7 +7,7 @@ from src.eta_engine import estimate_shipment_eta, load_eta_data
 
 def generate_eta_snapshots():
 
-    shipments = pd.read_csv(DATA_DIR / "shipments.csv")
+    shipments = pd.read_csv(DATA_DIR / "shipments.csv").head(1000)
 
     shipments["created_at"] = pd.to_datetime(
         shipments["created_at"],
