@@ -80,33 +80,33 @@ Logistics ETA Intelligence/
 
 ## Dataset Overview
 
-The current generated dataset contains:
+The generated full-scale dataset contains:
 
 | Dataset | Records |
 |---|---:|
 | Carriers | 20 |
 | Facilities | 100 |
-| Routes | 300 |
+| Routes | 9,900 |
 | Service Levels | 3 |
-| Shipments | 1,000 |
-| Shipment Legs | 3,018 |
-| Tracking Events | 5,960 |
-| Route Changes | 48 |
-| Route Change Segments | 96 |
+| Shipments | 50,000 |
+| Shipment Legs | 149,964 |
+| Tracking Events | 295,876 |
+| Route Changes | 1,583 |
+| Route Change Segments | 3,166 |
 | Facility Queue Snapshots | 120,000 |
 | Weather Events | 1,000 |
-| Ground Truth Records | 1,000 |
+| Ground Truth Records | 50,000 |
 
-The generator is configured with a fixed random seed of `20261022`.
+The generator uses a fixed random seed of `20261022`.
 
-The target full-scale configuration is 50,000 shipments and 300,000 tracking events. The current dataset is the starter-scale version.
+The configured tracking-event target is 300,000. The current generated dataset contains 295,876 tracking events.
 
 ## Installation
 
 ### 1. Clone the repository
 
 ```powershell
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/anuhya-7842/anuhya-7842-Logistics-ETA-Intelligence.git
 cd "Logistics ETA Intelligence"
 ```
 
@@ -146,10 +146,10 @@ Execute the automated test suite:
 python -m pytest -v
 ```
 
-The current recorded test result is:
+Current verification status:
 
 ```text
-18 tests passed successfully using pytest.
+All seven full-scale data validation groups passed. The full regression test suite is still being finalized; four tests require investigation.
 ```
 
 ## ETA Engine
@@ -185,7 +185,7 @@ Detailed project documentation is available in the `docs/` directory:
 - [x] Temporal leakage prevention checks.
 - [x] Data validation.
 - [x] Automated tests.
-- [ ] Full-scale dataset generation.
+- [x] Full-scale dataset generation.
 - [ ] Complete application interface and deployment.
 
 ## Disclaimer
