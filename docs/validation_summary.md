@@ -1,4 +1,3 @@
-
 # Data Validation Summary
 
 ## 1. Overview
@@ -15,29 +14,43 @@ The validation process checks primary keys, foreign keys, relationships, timesta
 | Data Processing | Pandas |
 | Testing Framework | Pytest |
 | Random Seed | 20261022 |
-| Generated Shipments | 1,000 |
+| Generated Shipments | 50,000 |
 | Generated Facilities | 100 |
-| Generated Tracking Events | 5,960 |
+| Generated Tracking Events | 295,876 |
 | Generated Weather Events | 1,000 |
 
-## 3. Dataset Validation
+## 3. Full-Scale Dataset Statistics
 
-| Dataset | Validation Checks |
-|---|---|
-| Carriers | Unique IDs, valid carrier attributes |
-| Facilities | Unique IDs, valid facility attributes |
-| Routes | Unique IDs, valid facility references |
-| Service Levels | Unique IDs, valid delivery targets |
-| Shipments | Unique IDs, valid foreign keys, shipment status |
-| Shipment Legs | Unique IDs, valid shipment and route references, leg sequence |
-| Tracking Events | Unique IDs, valid foreign keys, event types, timestamps |
-| Facility Queues | Unique IDs, valid facility references, non-negative queue metrics |
-| Weather Events | Unique IDs, valid references, disruption time ranges |
-| Ground Truth | Valid shipment references, delivery labels and outcomes |
-| Route Changes | Valid shipment, leg and original route references |
-| Route Change Segments | Valid route references, connected replacement segments |
+| Dataset | Records |
+|---|---:|
+| Carriers | 20 |
+| Facilities | 100 |
+| Routes | 9,900 |
+| Service Levels | 3 |
+| Shipments | 50,000 |
+| Shipment Legs | 149,964 |
+| Tracking Events | 295,876 |
+| Route Changes | 1,583 |
+| Route Change Segments | 3,166 |
+| Facility Queue Snapshots | 120,000 |
+| Weather Events | 1,000 |
+| Ground Truth Records | 50,000 |
 
-## 4. Tracking Event Quality
+The configured tracking-event generation target is 300,000. The generated dataset currently contains 295,876 events.
+
+## 4. Dataset Validation
+
+The following validation groups were executed:
+
+- **Master Data:** Primary keys, foreign keys, route facilities, and carrier statuses.
+- **Shipments:** Primary keys, foreign keys, shipment legs, route relationships, and leg sequence.
+- **Tracking Events:** Primary keys, foreign keys, event types, timestamps, facility relationships, and duplicate-event consistency.
+- **Facility Queues:** Primary keys, facility references, metric ranges, and timestamps.
+- **Weather Events:** Primary keys, target references, severity, disruption windows, and delay impact.
+- **Delivery Outcomes:** Shipment coverage, statuses, timestamps, SLA labels, and valid outcome values.
+- **Route Changes:** Primary keys, foreign keys, replacement segment counts, segment connectivity, and alternative route endpoints.
+
+## 5. Tracking Event Quality
 
 Tracking event validation includes:
 
@@ -46,21 +59,20 @@ Tracking event validation includes:
 - Valid event types.
 - Event timestamp validation.
 - Event and shipment-leg facility relationship checks.
-- Identification of late-arriving events.
-- Identification of duplicate carrier submissions.
+- Duplicate carrier submission identification.
+- Consistency between delivery events and shipment outcomes.
 
-Generated tracking event statistics:
+### Generated Tracking Event Statistics
 
 | Metric | Count |
 |---|---:|
-| Total tracking events | 5,960 |
-| Valid events | 5,820 |
-| Duplicate events | 140 |
-| Late-arriving events | 6,036 |
+| Total tracking events | 295,876 |
+| Valid events | 289,862 |
+| Duplicate events | 6,014 |
 
 Duplicate events are retained in the dataset with `event_status = DUPLICATE` rather than silently removed.
 
-## 5. Route Change Validation
+## 6. Route Change Validation
 
 Route change validation checks:
 
@@ -72,14 +84,14 @@ Route change validation checks:
 - Continuous replacement route connectivity.
 - Matching original and replacement route endpoints.
 
-Generated route change statistics:
+### Generated Route Change Statistics
 
 | Metric | Count |
 |---|---:|
-| Route changes | 48 |
-| Replacement segments | 96 |
+| Route changes | 1,583 |
+| Replacement segments | 3,166 |
 
-## 6. ETA Temporal Validation
+## 7. ETA Temporal Validation
 
 The ETA engine follows prediction-time constraints:
 
@@ -91,55 +103,39 @@ The ETA engine follows prediction-time constraints:
 
 These rules help prevent future information from leaking into historical ETA predictions.
 
-## 7. Automated Test Results
+## 8. Automated Test Results
 
-The automated test suite includes:
+The automated test suite includes ETA engine, snapshot generation, API, anomaly detection, and data validation tests.
 
-### ETA Engine Tests
-
-- Late-arriving delivery scans are not used before ingestion.
-- Delivery scans are used after ingestion.
-- Normal shipments return valid ETA predictions.
-- Unknown shipment IDs raise an error.
-- Future route changes are not applied early.
-- Approved route changes are applied after their effective time.
-
-### Data Validation Tests
-
-- Master data validation.
-- Shipment validation.
-- Tracking event validation.
-- Facility queue validation.
-- Weather event validation.
-- Delivery outcome validation.
-- Route change validation.
-
-Latest recorded test execution:
+The full-scale data validation command was executed:
 
 ```text
-python -m pytest -v
-
-18 tests passed
+python -m src.validators
 ```
 
-## 8. Summary
+Result:
 
-The generated datasets pass the implemented validation checks and the automated test suite.
+```text
+ALL DATA VALIDATIONS PASSED
+7 validation groups passed
+```
 
-The validation process helps ensure referential integrity, operational consistency, reproducible data generation, and temporal correctness for the Logistics ETA Intelligence Platform.
+The full regression test suite is still under investigation. Four tests reported failures during the latest full-scale execution. The test run was interrupted before completion.
 
-## Reproducibility Verification
+Therefore, the full-scale regression suite is not reported as passing.
 
-The reproducibility script was executed successfully.
+## 9. Reproducibility
 
-- Random seed: `20261022`
-- Generator executions: 2
-- CSV files compared: 12
-- Comparison method: SHA-256 checksums
-- Result: PASS — all generated CSV files produced identical checksums across both runs.
+The generator uses a fixed random seed of `20261022` to support reproducible data generation.
 
-The complete test suite was also executed after regeneration.
+Full-scale data validation was completed successfully. A complete full-scale reproducibility comparison has not been verified for this dataset.
 
-- Total tests: 18
-- Passed: 18
-- Failed: 0
+## 10. Summary
+
+The full-scale dataset contains 50,000 shipments, 149,964 shipment legs, and 295,876 tracking events.
+
+All seven implemented data validation groups passed successfully.
+
+The platform includes data integrity checks, operational business rules, duplicate event handling, route change validation, and temporal constraints for historical ETA predictions.
+
+The automated regression test suite remains under investigation, and its results are reported transparently.
